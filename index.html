@@ -1,1 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio — Shopify Assistant</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.0.15/index.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.15/index.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.19/index.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+  :root {
+    --c1: #341920;   /* darkest burgundy */
+    --c2: #4a1d20;   /* burgundy */
+    --c3: #b39b91;   /* dusty mauve */
+    --c4: #d7c6b4;   /* beige */
+    --c5: #efe1d4;   /* cream */
+    --ink: #2a1418;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--c5);
+    color: var(--c1);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', serif; }
+  .display { font-family: 'Playfair Display', serif; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 22px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(239, 225, 212, 0.7);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(179, 155, 145, 0.25);
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(239, 225, 212, 0.92);
+    padding: 16px 50px;
+  }
+  nav .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--c1);
+  }
+  nav .brand em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--c2);
+  }
+  nav ul { display: flex; gap: 42px; list-style: none; }
+  nav ul a {
+    text-decoration: none;
+    color: var(--c1);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+    padding: 6px 0;
+  }
+  nav ul a::before {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--c2);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  nav ul a:hover { color: var(--c2); }
+  nav ul a:hover::before { width: 100%; }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--c1);
+    cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 50px 80px;
+    background: var(--c5);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 15%; right: -10%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(179, 155, 145, 0.25), transparent 70%);
+    z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -10%; left: -5%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(215, 198, 180, 0.5), transparent 70%);
+    z-index: 0;
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .portfolio-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(80px, 14vw, 200px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    color: var(--c1);
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .portfolio-title span {
+    display: block;
+    background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .portfolio-title .italic {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--c2);
+    -webkit-text-fill-color: var(--c2);
+  }
+
+  .hero-subtitle {
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--c1);
+    margin-bottom: 36px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(52, 25, 32, 0.15);
+    max-width: 520px;
+  }
+  .hero-subtitle .divider {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c2);
+    margin: 0 18px;
+    vertical-align: middle;
+  }
+
+  .hero-bio {
+    font-size: 15px;
+    color: rgba(52, 25, 32, 0.78);
+    line-height: 1.85;
+    margin-bottom: 40px;
+    max-width: 560px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 36px;
+    background: var(--c1);
+    color: var(--c5);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    font-weight: 500;
+  }
+  .hero-cta:hover {
+    background: var(--c2);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(52, 25, 32, 0.3);
+  }
+  .hero-cta i { transition: transform 0.3s; }
+  .hero-cta:hover i { transform: translateX(5px); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  .hero-image-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+  }
+  .hero-blob {
+    position: absolute;
+    inset: -20px;
+    background: linear-gradient(135deg, var(--c3), var(--c4));
+    border-radius: 48% 52% 60% 40% / 50% 45% 55% 50%;
+    animation: blob 14s ease-in-out infinite;
+    z-index: 0;
+    opacity: 0.7;
+  }
+  @keyframes blob {
+    0%, 100% { border-radius: 48% 52% 60% 40% / 50% 45% 55% 50%; }
+    33% { border-radius: 60% 40% 45% 55% / 45% 55% 50% 50%; }
+    66% { border-radius: 45% 55% 50% 50% / 55% 50% 45% 55%; }
+  }
+  .hero-image-wrap img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 25px 40px rgba(52, 25, 32, 0.25));
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .hero-tag {
+    position: absolute;
+    top: 30px; right: -20px;
+    background: var(--c5);
+    color: var(--c1);
+    padding: 14px 22px;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    box-shadow: 0 12px 30px rgba(52, 25, 32, 0.15);
+    z-index: 3;
+    border: 1px solid rgba(179, 155, 145, 0.3);
+    animation: float 5s ease-in-out infinite reverse;
+  }
+  .hero-tag small {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--c2);
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+
+  .hero-sticker {
+    position: absolute;
+    bottom: 40px; left: -30px;
+    width: 110px; height: 110px;
+    background: var(--c2);
+    color: var(--c5);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    z-index: 3;
+    box-shadow: 0 12px 30px rgba(74, 29, 32, 0.35);
+    animation: rotate 20s linear infinite;
+  }
+  .hero-sticker span {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* SECTION HEAD */
+  .section-head {
+    text-align: center;
+    padding: 90px 50px 50px;
+    position: relative;
+  }
+  .section-head .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-head .eyebrow::before,
+  .section-head .eyebrow::after {
+    content: '';
+    width: 30px; height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .section-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 6vw, 84px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .section-head h2 em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* MY WORKS - MAGAZINE (pinterest style) */
+  .works {
+    padding: 40px 50px 110px;
+    background: var(--c4);
+    position: relative;
+  }
+  .works .section-head { color: var(--c1); }
+  .works .section-head .eyebrow { color: var(--c2); }
+  .works .section-head h2 em { color: var(--c2); }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 110px;
+    gap: 18px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--c5);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(52, 25, 32, 0.08);
+  }
+  .work-item:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 30px 60px rgba(52, 25, 32, 0.2);
+  }
+  .work-item img, .work-item video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .work-item:hover img, .work-item:hover video { transform: scale(1.08); }
+  .work-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(52, 25, 32, 0.9) 0%, rgba(52, 25, 32, 0.3) 50%, transparent 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    color: var(--c5);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .work-item:hover .overlay { opacity: 1; }
+  .work-item .overlay h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .work-item .overlay h4 em { font-style: italic; font-weight: 400; }
+  .work-item .overlay p {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c4);
+  }
+
+  .work-item.w1 { grid-column: span 7; grid-row: span 4; }
+  .work-item.w2 { grid-column: span 5; grid-row: span 2; }
+  .work-item.w3 { grid-column: span 5; grid-row: span 2; }
+  .work-item.w4 { grid-column: span 12; grid-row: span 3; }
+
+  .works-caption {
+    max-width: 900px;
+    margin: 70px auto 0;
+    text-align: center;
+    padding: 50px 40px;
+    background: var(--c5);
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(52, 25, 32, 0.08);
+    position: relative;
+  }
+  .works-caption::before {
+    content: '"';
+    position: absolute;
+    top: -30px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: var(--c2);
+    line-height: 1;
+    opacity: 0.3;
+  }
+  .works-caption p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: var(--c1);
+    line-height: 1.6;
+  }
+  .works-caption p strong {
+    color: var(--c2);
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* LANDING PAGES */
+  .landing {
+    padding: 40px 50px 110px;
+    background: var(--c3);
+    position: relative;
+  }
+  .landing .section-head { color: var(--c1); }
+  .landing .section-head .eyebrow { color: var(--c2); }
+  .landing .section-head h2 em { color: var(--c2); }
+
+  .video-collage {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 110px;
+    gap: 14px;
+  }
+  .video-cell {
+    position: relative;
+    overflow: visible;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: z-index 0s 0.3s;
+  }
+  .video-cell:hover {
+    z-index: 30;
+    transition: z-index 0s 0s;
+  }
+  .video-cell .vid-wrap {
+    width: 100%; height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--c1);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(52, 25, 32, 0.2);
+  }
+  .video-cell video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-cell:hover .vid-wrap {
+    transform: scale(1.35);
+    box-shadow: 0 40px 80px rgba(52, 25, 32, 0.5);
+  }
+  .video-cell .play-badge {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    background: rgba(239, 225, 212, 0.95);
+    color: var(--c1);
+    padding: 7px 14px;
+    border-radius: 50px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    opacity: 0.95;
+    transition: opacity 0.3s;
+    z-index: 2;
+  }
+  .video-cell:hover .play-badge { opacity: 0; }
+
+  .vc1 { grid-column: span 2; grid-row: span 3; }
+  .vc2 { grid-column: span 2; grid-row: span 2; }
+  .vc3 { grid-column: span 2; grid-row: span 3; }
+  .vc4 { grid-column: span 2; grid-row: span 2; }
+  .vc5 { grid-column: span 3; grid-row: span 2; }
+  .vc6 { grid-column: span 3; grid-row: span 2; }
+
+  /* CUSTOM WEBSITES */
+  .custom {
+    padding: 40px 50px 110px;
+    background: #efe1d6;
+    color: #32171e;
+    position: relative;
+    overflow: hidden;
+  }
+  .custom::before {
+    content: '';
+    position: absolute;
+    top: 10%; right: -10%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(179, 155, 145, 0.2), transparent 70%);
+  }
+  .custom .section-head { color: #32171e; }
+  .custom .section-head .eyebrow { color: #4a1d20; }
+  .custom .section-head .eyebrow::before,
+  .custom .section-head .eyebrow::after { background: #4a1d20; }
+  .custom .section-head h2 em { color: #4a1d20; }
+
+  .custom-video-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(50, 23, 30, 0.2);
+    aspect-ratio: 16 / 9;
+    background: var(--c1);
+  }
+  .custom-video-wrap video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .custom-video-wrap .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(52, 25, 32, 0.3);
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .custom-video-wrap.playing .play-overlay { opacity: 0; }
+  .play-circle {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(239, 225, 212, 0.95);
+    color: #32171e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    transition: transform 0.4s;
+    backdrop-filter: blur(10px);
+  }
+  .custom-video-wrap:hover .play-circle { transform: scale(1.1); }
+
+  .custom-caption {
+    max-width: 800px;
+    margin: 50px auto 0;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #32171e;
+    line-height: 1.6;
+  }
+  .custom-caption strong {
+    color: #4a1d20;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 110px 50px;
+    background: var(--c1);
+    color: var(--c5);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(179, 155, 145, 0.2), transparent 70%);
+  }
+  .contact::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74, 29, 32, 0.6), transparent 70%);
+  }
+  .contact .section-head { color: var(--c5); padding-top: 0; }
+  .contact .section-head .eyebrow { color: var(--c3); }
+  .contact .section-head .eyebrow::before,
+  .contact .section-head .eyebrow::after { background: var(--c3); }
+  .contact .section-head h2 em { color: var(--c3); }
+
+  .contact-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .contact-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .contact-left h2 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--c3);
+  }
+  .contact-left p {
+    color: rgba(239, 225, 212, 0.75);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  footer {
+    padding: 30px 50px;
+    background: #1f0f13;
+    color: rgba(239, 225, 212, 0.5);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer span { color: var(--c3); }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 16px 22px; }
+    nav.scrolled { padding: 12px 22px; }
+    nav .brand { font-size: 24px; }
+    nav ul {
+      position: fixed;
+      top: 60px; left: 0; right: 0;
+      flex-direction: column;
+      background: var(--c5);
+      padding: 30px;
+      gap: 22px;
+      border-bottom: 1px solid rgba(179, 155, 145, 0.3);
+      transform: translateY(-120%);
+      transition: transform 0.4s;
+    }
+    nav ul.open { transform: translateY(0); }
+    .menu-toggle { display: block; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 110px 22px 60px;
+      gap: 30px;
+      text-align: center;
+    }
+    .hero-subtitle { margin-left: auto; margin-right: auto; }
+    .hero-bio { margin-left: auto; margin-right: auto; }
+    .hero-tag { right: 10px; top: 10px; font-size: 14px; padding: 10px 16px; }
+    .hero-sticker { left: 10px; bottom: 10px; width: 80px; height: 80px; font-size: 11px; }
+    .hero-sticker span { font-size: 16px; }
+
+    .section-head, .works, .landing, .custom, .contact { padding-left: 22px; padding-right: 22px; }
+
+    .works-grid { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 100px; gap: 12px; }
+    .work-item.w1 { grid-column: span 6; grid-row: span 3; }
+    .work-item.w2, .work-item.w3 { grid-column: span 3; grid-row: span 2; }
+    .work-item.w4 { grid-column: span 6; grid-row: span 2; }
+
+    .video-collage { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; gap: 10px; }
+    .vc1, .vc2, .vc3, .vc4, .vc5, .vc6 { grid-column: span 1; grid-row: span 1; }
+    .video-cell:hover .vid-wrap { transform: scale(1.1); }
+  }
+
+  @media (max-width: 500px) {
+    .portfolio-title { font-size: 70px; }
+    .hero-subtitle { font-size: 11px; letter-spacing: 0.15em; }
+    .hero-subtitle .divider { margin: 0 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="brand">Nane <em>Z.</em></div>
+  <ul id="navMenu">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#works">My Works</a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <h1 class="portfolio-title">
+      <span>PORT</span>
+      <span class="italic">FO</span>
+      <span>LIO</span>
+    </h1>
+    <div class="hero-subtitle">
+      Shopify Assistant <span class="divider"></span> E-commerce Management <span class="divider"></span> Product Listing
+    </div>
+    <p class="hero-bio">
+      I help e-commerce businesses keep their Shopify stores organized, product information accurate, and daily operations running smoothly. I have completed Shopify training and can support everyday store management tasks, including product uploads, product descriptions, images, variants, pricing, collections, and inventory updates. I can also assist with product research, organizing product catalogs, and maintaining consistent product information through Shopify Admin. I am comfortable following established processes, coordinating responsibilities, and communicating clearly throughout a project. My goal is to help store owners save time by keeping their product catalogs organized and their routine e-commerce tasks under control.
+      <br><br>
+      If you need support with Shopify product management, store administration, product research, or ongoing e-commerce coordination, I can help you manage these tasks efficiently and reliably.
+    </p>
+    <a href="#contact" class="hero-cta">
+      Let's work together <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-wrap">
+      <div class="hero-blob"></div>
+      <img src="https://cdn.shopify.com/s/files/1/0681/9050/2974/files/5413482715706760222_121.jpg?v=1793389987" alt="Nane Z." />
+      <div class="hero-tag">
+        <small>Available for</small>
+        Shopify Projects
+      </div>
+      <div class="hero-sticker">
+        <div>
+          <span>Shopify</span>
+          Expert
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MY WORKS -->
+<section class="works" id="works">
+  <div class="section-head reveal">
+    <div class="eyebrow">Selected Projects</div>
+    <h2>My <em>Works</em></h2>
+  </div>
+  <div class="works-grid">
+    <div class="work-item w1 reveal">
+      <video muted loop playsinline preload="metadata">
+        <source src="https://cdn.shopify.com/videos/c/o/v/1b16a7bc41ba4051ab01be0c788bbdd7.mp4" type="video/mp4" />
+      </video>
+      <div class="overlay">
+        <h4>Live Store <em>Walkthrough</em></h4>
+        <p>Shopify Demo</p>
+      </div>
+    </div>
+    <div class="work-item w2 reveal">
+      <img src="https://cdn.shopify.com/s/files/1/0681/9050/2974/files/Screenshot_2026-10-28_134415.png?v=1793390251" alt="Shopify project" />
+      <div class="overlay">
+        <h4>Storefront <em>Design</em></h4>
+        <p>Shopify Theme</p>
+      </div>
+    </div>
+    <div class="work-item w3 reveal">
+      <img src="https://cdn.shopify.com/s/files/1/0681/9050/2974/files/Screenshot_2026-10-28_123303.png?v=1793390250" alt="Shopify project" />
+      <div class="overlay">
+        <h4>Product <em>Catalog</em></h4>
+        <p>Organization</p>
+      </div>
+    </div>
+    <div class="work-item w4 reveal">
+      <img src="https://cdn.shopify.com/s/files/1/0681/9050/2974/files/Screenshot_2026-10-28_134308.png?v=1793390249" alt="Shopify project" />
+      <div class="overlay">
+        <h4>Admin <em>Setup</em></h4>
+        <p>Management</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="works-caption reveal">
+    <p>
+      I can create a website from scratch to a finished state, use <strong>HTML</strong>, <strong>CSS</strong>, <strong>JavaScript</strong>, and integrate different <strong>Apps</strong> to build a complete Shopify experience.
+    </p>
+  </div>
+</section>
+
+<!-- LANDING PAGES -->
+<section class="landing" id="landing">
+  <div class="section-head reveal">
+    <div class="eyebrow">Landing Pages</div>
+    <h2>Creative <em>Showcase</em></h2>
+  </div>
+
+  <div class="video-collage">
+    <div class="video-cell vc1 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/d81cdab4725644dcbfa0a17fdb3550ba.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+    <div class="video-cell vc2 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/95bb1383ca3f47679b807c4f5d27b0ff.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+    <div class="video-cell vc3 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/440423ad6ff441eebb495b6eb8d7d740.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+    <div class="video-cell vc4 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/8be173ac413b41cb919cae5697bfbe7c.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+    <div class="video-cell vc5 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/2a601b1044b04b09976c89554b931c70.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+    <div class="video-cell vc6 reveal">
+      <div class="vid-wrap">
+        <video muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/87baae1046ab40acb663a389903c4d90.mp4" type="video/mp4" />
+        </video>
+        <div class="play-badge"><i class="fa-solid fa-play"></i> Tap to play</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM WEBSITES -->
+<section class="custom" id="custom">
+  <div class="section-head reveal">
+    <div class="eyebrow">Custom Websites</div>
+    <h2>Built from <em>Scratch</em></h2>
+  </div>
+
+  <div class="custom-video-wrap reveal" id="customVideo">
+    <video muted loop playsinline preload="metadata">
+      <source src="https://cdn.shopify.com/videos/c/o/v/64d71a2f63904de68d2158128bd24f33.mp4" type="video/mp4" />
+    </video>
+    <div class="play-overlay">
+      <div class="play-circle"><i class="fa-solid fa-play"></i></div>
+    </div>
+  </div>
+
+  <p class="custom-caption reveal">
+    Crafting <strong>bespoke websites</strong> with clean code, thoughtful design, and seamless functionality — tailored to every brand's unique story.
+  </p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-head reveal">
+    <div class="eyebrow">Get in Touch</div>
+    <h2>My <em>Contacts</em></h2>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-left reveal">
+      <h2>Let's bring your <em>vision</em> to life.</h2>
+      <p>Ready to organize your Shopify store, build a landing page, or streamline your e-commerce operations? I'd love to hear about your project.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 — Crafted with <span>♥</span> for Shopify
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Mobile menu
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+    const icon = menuToggle.querySelector('i');
+    icon.className = navMenu.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  });
+  document.querySelectorAll('nav ul a').forEach(a => {
+    a.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+      menuToggle.querySelector('i').className = 'fa-solid fa-bars';
+    });
+  });
+
+  // Detect touch device
+  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+  // Video collage - hover for desktop, tap for mobile
+  document.querySelectorAll('.video-cell').forEach(cell => {
+    const video = cell.querySelector('video');
+    
+    if (isTouchDevice) {
+      // Mobile: tap to play/pause
+      cell.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (video.paused) {
+          video.play().catch(()=>{});
+        } else {
+          video.pause();
+        }
+      });
+    } else {
+      // Desktop: hover to play
+      cell.addEventListener('mouseenter', () => { video.play().catch(()=>{}); });
+      cell.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+    }
+  });
+
+  // Works video - autoplay on view
+  const worksVideo = document.querySelector('.work-item.w1 video');
+  if (worksVideo) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          worksVideo.play().catch(()=>{});
+        } else {
+          worksVideo.pause();
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(worksVideo);
+  }
+
+  // Custom websites video - play on hover (desktop) or tap (mobile)
+  const customWrap = document.getElementById('customVideo');
+  const customVideo = customWrap.querySelector('video');
+  
+  if (isTouchDevice) {
+    // Mobile: tap to play/pause
+    customWrap.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (customVideo.paused) {
+        customVideo.play().catch(()=>{});
+        customWrap.classList.add('playing');
+      } else {
+        customVideo.pause();
+        customWrap.classList.remove('playing');
+      }
+    });
+  } else {
+    // Desktop: hover to play
+    customWrap.addEventListener('mouseenter', () => {
+      customVideo.play().catch(()=>{});
+      customWrap.classList.add('playing');
+    });
+    customWrap.addEventListener('mouseleave', () => {
+      customVideo.pause();
+      customVideo.currentTime = 0;
+      customWrap.classList.remove('playing');
+    });
+  }
+  
+  // Also play when in view
+  const customObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        customVideo.play().catch(()=>{});
+        customWrap.classList.add('playing');
+      }
+    });
+  }, { threshold: 0.5 });
+  customObs.observe(customWrap);
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // Active nav state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul a');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.pageYOffset;
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 180;
+      const h = sec.offsetHeight;
+      const id = sec.getAttribute('id');
+      if (scrollY >= top && scrollY < top + h) {
+        navLinks.forEach(l => l.style.color = '');
+        const active = document.querySelector(`nav ul a[href="#${id}"]`);
+        if (active) active.style.color = 'var(--c2)';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
 
